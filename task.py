@@ -45,4 +45,4 @@ def calculate_probability(name, model, temp=1.0):
 
 def analyze_name(name, model, temp=1.0):
     prob = calculate_probability(name, model, temp=temp)
-    print(f"{name} ({'NIE' if name not in dataset else ''}ISTNIEJE), probability: {prob}")
+    print(f"{name} ({'NIE' if name not in dataset else ''}ISTNIEJE), probability: {'%.2E' % prob}")

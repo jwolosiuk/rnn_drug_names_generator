@@ -48,7 +48,7 @@ def prepare_dataset():
             if j + 1 >= max_len:
                 break
             X[i, j + 1] = char2id[c]
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.25, random_state=42)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.25)
     trainloader = DataLoader(TensorDataset(torch.from_numpy(X_train).long(),
                                            torch.from_numpy(Y_train).long()),
                              batch_size=128, shuffle=True)
@@ -126,9 +126,9 @@ class GenerativeLSTM(nn.Module):
         res = self.fc(output)
         return res.permute(1, 2, 0) #  LBC -> BCL
 
-def get_trained_model(num_epochs=100):
-    model = GenerativeLSTM(embedding_size=5, hidden_size=16)
-    optimizer = optim.Adam(model.parameters(), lr=0.01)
+def get_trained_model(emb_size=5, hidden_size=16, lr=0.01, num_epochs=100):
+    model = GenerativeLSTM(embedding_size=emb_size, hidden_size=hidden_size)
+    optimizer = optim.Adam(model.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
     dataloaders = prepare_dataset()
     train_model_gener(model, criterion, optimizer, dataloaders, num_epochs=num_epochs)
