@@ -1,4 +1,5 @@
 import pickle
+from collections import Counter
 
 XML_DATA_FILE = 'data/drugs_pl.xml'
 PICKLE_DATA_FILE = 'data/drug_names.p'
@@ -37,6 +38,13 @@ def load_names(filename=PICKLE_DATA_FILE):
     drug_names = pickle.load(open(filename, "rb"))
     return drug_names
 
+def get_derivatives(names):
+    letters = Counter()
+    for name in names:
+        letters.update(name)
+    char2id = {c: i for i, (c, v) in enumerate(letters.items())}
+    id2char = {i: c for i, (c, v) in enumerate(letters.items())}
+    return char2id, id2char
 
 if __name__ == '__main__':
     save_names()
